@@ -27,7 +27,7 @@ class PythonTipFetcher(object):
     Used in fetching tips from a twitter account and
     updating Database with tips.
     """
-    def __init__(self, user_id="python_tip", count=None):
+    def __init__(self, user_id=settings.DEFAULT_TWITTER_USER_ID, count=None):
         # set since_id to ensure that the celery job gets only
         # the latest tweets
         self.since_id = get_most_recent_tip()
@@ -53,7 +53,7 @@ class PythonTipFetcher(object):
         self.api = tweepy.API(auth)
 
     def fetch_tweets(self):
-        if self.count and self.count >= 200:
+        if self.count and self.count >= settings.DEFAULT_REQUEST_COUNT:
             # maximum count per request is 200
             raise ValueError(f"Count can not be greater than 200")
         tweets = self.api.user_timeline(

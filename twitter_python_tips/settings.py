@@ -26,7 +26,7 @@ load_dotenv(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-n5j&3(u0i(17@ubox*a8ljax_qrq1*abk*tssu#bi8tjd7^&eb'
+SECRET_KEY = os.environ.get("SECRET_KEY", None)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -183,6 +183,9 @@ ACCOUNT_USERNAME_REQUIRED = False
 LOGIN_REDIRECT_URL = "/"
 SOCIALACCOUNT_ADAPTER = "users.adapter.TwitterSocialAccountAdapter"
 
+DEFAULT_REQUEST_COUNT = 199
+DEFAULT_TWITTER_USER_ID = "python_tip"
+
 # CELERY
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
@@ -192,7 +195,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULE = {
     'update-python-tips-db': {
         'task': 'python_tips.tasks.update_db',
-        'schedule': crontab(minute='*/5'),
+        'schedule': crontab(minute='*/30'),
         'args': (),
     },
 }

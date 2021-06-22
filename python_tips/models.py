@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Tip(models.Model):
-    tweet_id = models.IntegerField("Tweet ID", db_index=True)
+    tweet_id = models.IntegerField("Tweet ID", unique=True, db_index=True)
     full_text = models.CharField(
         "Full Tweet Text", max_length=280)
     num_retweets = models.IntegerField("Number of retweets", db_index=True)

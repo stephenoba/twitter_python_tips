@@ -14,11 +14,12 @@ def update_db():
     """
     fetcher = PythonTipFetcher(count=199)
     try:
-        logger.info(f"Fetching tweets from @{fetcher.user_id}")
+        logger.info(f"Fetching tweet(s) from @{fetcher.user_id}")
         tweets = fetcher.fetch_tweets()
-        logger.info(f"Fetched {len(tweets)} tweets from twitter")
-        logger.info(f"Creating Tips......")
-        fetcher.create_tips(tweets)
+        logger.info(f"Fetched {len(tweets)} tweet(s) from twitter")
+        if len(tweets):
+            logger.info(f"Creating Tips......")
+            fetcher.create_tips(tweets)
     except Exception as e:
         logger.error(e)
         raise PythonTipError(e)

@@ -22,6 +22,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "-t",
             "--twitter_id",
+            default=settings.DEFAULT_TWITTER_USER_ID,
             dest="twitter_id",
             help="twitter id to pull Tweets from"
         )
@@ -36,13 +37,16 @@ class Command(BaseCommand):
             raise CommandError(e)
 
         try:
-            self.stdout.write(f"Fetching tweets from @{fetcher.user_id}")
+            self.stdout.write(f"Fetching tweet(s) from @{fetcher.user_id}")
             tweets = fetcher.fetch_tweets()
-            self.stdout.write(f"Fetched {len(tweets)} tweets from twitter")
-            self.stdout.write(f"Creating Tips......")
-            fetcher.create_tips(tweets)
+            self.stdout.write(f"Fetched {len(tweets)} tweet(s) from twitter")
+            if len(tweets):
+                self.stdout.write("Creating Tips......")
+                fetcher.create_tips(tweets)
+                self.stdout.write(f"Successfully updated database with {len(tweets)} tips")
+                sys.exit(0)
         except Exception as e:
             raise CommandError(e)
 
-        self.stdout.write("Successfully updated database with tips")
+        self.stdout.write("Database is up to date.")
         sys.exit(0)

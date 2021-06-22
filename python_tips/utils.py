@@ -16,7 +16,7 @@ def get_most_recent_tip():
     """
     helper function to get most recent tweet id
     """
-    tip = Tip.objects.last()
+    tip = Tip.objects.first()
     if not tip:
         return None
     return tip.tweet_id
@@ -53,7 +53,7 @@ class PythonTipFetcher(object):
         self.api = tweepy.API(auth)
 
     def fetch_tweets(self):
-        if self.count and self.count >= settings.DEFAULT_REQUEST_COUNT:
+        if self.count and self.count >= 200:
             # maximum count per request is 200
             raise ValueError(f"Count can not be greater than 200")
         tweets = self.api.user_timeline(

@@ -1,4 +1,4 @@
-#Twitter Python Tips
+# Twitter Python Tips
 
 Have you ever heard of Daily Python Tip? It's a Twitter account that posts one python tip per day, run by @karlafej and @simecek.
 
